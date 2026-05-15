@@ -11,12 +11,6 @@ hide_st_style = """
 
             /* Hide the top-right menu and deploy button */
             .stApp [data-testid="stToolbar"] {display: none;}
-
-            /* Hide the sidebar collapse 'X' button so it stays open permanently */
-            [data-testid="stSidebarCollapseButton"] {display: none;}
-
-            /* Hide the recovery arrow just in case */
-            [data-testid="collapsedControl"] {display: none;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
