@@ -7,10 +7,13 @@ st.set_page_config(page_title="Coding Tutorials", layout="wide")
 hide_st_style = """
             <style>
             /* Hide the default Streamlit footer */
-            footer {visibility: hidden;}
+            footer {visibility: hidden !important;}
 
-            /* Hide the top-right menu and deploy button */
-            .stApp [data-testid="stToolbar"] {display: none;}
+            /* Hide the top-right menu (the three dots & GitHub icon) */
+            [data-testid="stToolbar"] {display: none !important;}
+
+            /* Make the header invisible but keep its contents (the arrow) functional */
+            header {background-color: transparent !important;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
