@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numeristas | Brain Training Through Mathematics </title>
+    <style>
+        /* --- STREAMLIT MIMICRY CSS --- */
+        :root {
+            --primary: #1c83e1; /* The specific blue from your screenshot */
+            --bg-base: #ffffff;
+            --bg-sidebar: #f0f2f6;
+            --text-main: #31333F;
+            --text-muted: #5c5c64;
+            --border: rgba(49, 51, 63, 0.2);
+            --border-light: rgba(49, 51, 63, 0.1);
+            --radius: 0.5rem;
+            --font-main: "Source Sans Pro", "Segoe UI", Roboto, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--text-main);
+            background-color: var(--bg-base);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* --- SIDEBAR --- */
+        #sidebar {
+            width: 330px;
+            min-width: 330px;
+            background-color: var(--bg-sidebar);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+        }
+
+        .row { display: flex; gap: 0.5rem; width: 100%; }
+
+        .sidebar-section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-top: 1rem;
+            margin-bottom: -0.5rem;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-light);
+            margin: 1rem 0;
+        }
+
+        /* --- MAIN CONTENT --- */
+        #main {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .block-container {
+            width: 100%;
+            max-width: 800px; /* Forces that centered Streamlit look */
+            padding: 3rem 1rem;
+        }
+
+        /* --- BUTTONS --- */
+        button {
+            background-color: var(--bg-base);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: inherit;
+            width: 100%;
+            transition: all 0.15s ease;
+        }
+
+        button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* The Active "Blue" Streamlit Button */
+        button.primary {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            font-weight: 500;
+        }
+
+        button.primary:hover {
+            background-color: #156aba;
+            color: white;
+        }
+
+        .top-menu {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .top-menu button { width: auto; padding: 0.5rem 1.5rem; }
+
+        /* --- TYPOGRAPHY & LAYOUT --- */
+        h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.01em;}
+        h2 { font-size: 1.75rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; }
+        h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        p { margin-bottom: 1rem; }
+        ul { margin-bottom: 1rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+
+        .columns {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .column { flex: 1; }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            #sidebar { width: 100%; height: auto; }
+            .columns { flex-direction: column; gap: 0; }
+        }
+
+        /* --- EXPANDER --- */
+        details {
+            background: var(--bg-base);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 0.5rem 1rem;
+        }
+        summary { font-weight: 400; cursor: pointer; list-style: none; display: flex; align-items: center; }
+        summary::before { content: "›"; font-size: 1.5rem; margin-right: 0.5rem; transition: 0.2s; }
+        details[open] summary::before { transform: rotate(90deg); }
+        details p { font-size: 0.9rem; margin-top: 1rem; color: var(--text-muted);}
+
+        /* --- LOGIC HIDERS --- */
+        .lang-en, .lang-es, .lang-zh { display: none; }
+        .view-home, .view-addition { display: none; }
+
+        /* Active states triggered by JS */
+        .show-en .lang-en { display: block; }
+        .show-es .lang-es { display: block; }
+        .show-zh .lang-zh { display: block; }
+
+        .show-home .view-home { display: block; }
+        .show-addition .view-addition { display: block; }
+    </style>
+</head>
+<body class="show-en show-home">
+
+    <aside id="sidebar">
+        <div class="row">
+            <button id="btn-en" class="primary" onclick="setLang('en')">EN</button>
+            <button id="btn-es" onclick="setLang('es')">ES</button>
+            <button id="btn-zh" onclick="setLang('zh')">ZH</button>
+        </div>
+
+        <hr>
+
+        <div class="lang-en"><button id="nav-home-en" class="primary" onclick="setView('home')">🏠 Home</button></div>
+        <div class="lang-es"><button id="nav-home-es" class="primary" onclick="setView('home')">🏠 Inicio</button></div>
+        <div class="lang-zh"><button id="nav-home-zh" class="primary" onclick="setView('home')">🏠 首页</button></div>
+
+        <div class="lang-en sidebar-section-title">TUTORIALS</div>
+        <div class="lang-es sidebar-section-title">TUTORIALES</div>
+        <div class="lang-zh sidebar-section-title">教程</div>
+
+        <div class="lang-en"><button id="nav-add-en" onclick="setView('addition')">Addition</button></div>
+        <div class="lang-es"><button id="nav-add-es" onclick="setView('addition')">Suma</button></div>
+        <div class="lang-zh"><button id="nav-add-zh" onclick="setView('addition')">加法</button></div>
+
+        <hr>
+
+        <details>
+            <summary>
+                <span class="lang-en">Legal & Privacy</span>
+                <span class="lang-es">Legal y privacidad</span>
+                <span class="lang-zh">法律与隐私</span>
+            </summary>
+
+            <div class="lang-en">
+                <p><strong>Contact:</strong> Any feedback or requests are welcome: info@numeristas.com</p>
+                <p><strong>Privacy Policy:</strong> We don't collect any personal data or tracking cookies.</p>
+                <p><strong>Disclaimer & Liability:</strong> This platform was engineered with extensive use of Artificial Intelligence. As a result, the engine or the generated logic may contain errors or inaccuracies. The developer assumes no responsibility or liability for any issues, crashes, or incorrect computations arising from its use. Furthermore, we make no medical or cognitive claims regarding this software.</p>
+                <p><strong>Hardware Warning:</strong> Please be advised that the final exercise utilizes an exact C++ solver that exhaustively computes every possible branch of a decision tree. This algorithmic execution is hardware and power intensive, and may cause rapid battery drain or thermal throttling on mobile devices.</p>
+            </div>
+            <div class="lang-es">
+                <p><strong>Contacto:</strong> Cualquier comentario o solicitud es bienvenido: info@numeristas.com</p>
+                <p><strong>Política de privacidad:</strong> No recopilamos datos personales ni cookies de seguimiento.</p>
+                <p><strong>Descargo de responsabilidad:</strong> Esta plataforma ha sido desarrollada con un uso extensivo de la inteligencia artificial. Como resultado, el motor o la lógica generada pueden contener errores o inexactitudes. El desarrollador no asume ninguna responsabilidad legal por problemas, fallos o cálculos incorrectos derivados de su uso. Además, no afirmamos que el uso de este software aporte ningún beneficio médico o cognitivo.</p>
+                <p><strong>Advertencia de hardware:</strong> Tenga en cuenta que el último ejercicio utiliza un solucionador exacto en C++ que calcula exhaustivamente cada rama posible de un árbol de decisiones. Esta ejecución algorítmica requiere un uso intensivo de hardware y energía, y puede causar un rápido consumo de batería o estrangulamiento térmico (thermal throttling) en dispositivos móviles.</p>
+            </div>
+            <div class="lang-zh">
+                <p><strong>联系方式：</strong> 欢迎提供任何反馈或要求：info@numeristas.com</p>
+                <p><strong>隐私政策：</strong> 我们不收集任何个人数据或跟踪 cookie。</p>
+                <p><strong>免责声明：</strong> 本平台在开发过程中广泛使用了人工智能...</p>
+                <p><strong>硬件警告：</strong> 请注意，最终练习使用了一个精确的 C++ 求解器...</p>
+            </div>
+        </details>
+    </aside>
+
+    <main id="main">
+        <div class="block-container">
+
+            <div class="top-menu">
+    <button>
+        <span class="lang-en">⭐ Rate App</span>
+        <span class="lang-es">⭐ Califica la app</span>
+        <span class="lang-zh">⭐ 评价应用</span>
+    </button>
+    <button>
+        <span class="lang-en">💬 Feedback</span>
+        <span class="lang-es">💬 Feedback</span>
+        <span class="lang-zh">💬 反馈</span>
+    </button>
+    <button>
+        <span class="lang-en">☕ Contribute</span>
+        <span class="lang-es">☕ Contribuye</span>
+        <span class="lang-zh">☕ 贡献</span>
+    </button>
+</div>
+            <hr style="margin-bottom: 2rem;">
+
+            <div class="view-home">
+
+                <div class="lang-en">
+                    <h1>Brain Training Through Mathematics</h1>
+                    <p>Numeristas is a high-performance brain training platform designed to push your computational limits through deep focus and minimal prerequisites.</p>
+
+                    <h2>The Philosophy</h2>
+                    <ul>
+                        <li><strong>The Instant-Answer Trap:</strong> If you know the answer in a tenth of a second, you aren't training; you're reciting. You can increase and adjust difficulty in all exercises.</li>
+                        <li><strong>Embrace the Friction:</strong> Real growth happens in the "struggle zone." Whether it takes 30 seconds or 30 minutes, the goal is to find the boundary of your mental capacity.</li>
+                        <li><strong>Adult-Grade Computation:</strong> While 2 + 2 serves its purpose for children, Numeristas is built for adults who want to maintain and expand their cognitive agility.</li>
+                        <li><strong>Minimal Prerequisites:</strong> You don't need a PhD in Mathematics. We’ve stripped away the fluff, requiring only a grasp of fundamental arithmetic and foundational logic to get started.</li>
+                        <li><strong>Built-in Feedback:</strong> For specialized fields outside the standard curriculum, we provide real-time feedback and guidance—with a few intentional exceptions designed to keep you challenged without feeling overwhelmed.</li>
+                    </ul>
+
+                    <h2>The Training Landscape</h2>
+                    <p>Numeristas covers a vast landscape of mental disciplines. Whether you are looking to master hardcore arithmetic, recursive thinking, algorithmic logic, or spatial reasoning, we have a field for you.</p>
+
+                    <div class="columns">
+
+    <div class="column">
+        <h3>🔢 Arithmetic & Algebra</h3>
+        <p><em>Master the fundamental language of numbers, then push into the complex.</em></p>
+        <ul>
+            <li><strong>The Essentials:</strong> Precision training in Addition, Subtraction, Multiplication, Division, and Fractions.</li>
+            <li><strong>Time Zones:</strong> Calculate global hour conversions.</li>
+            <li><strong>Advanced Powers:</strong> Tackle Powers, Nth Roots, and Logarithms to build exponential intuition.</li>
+            <li><strong>Alternative Systems:</strong> Master Base Conversions to break free from decimal-only thinking.</li>
+            <li><strong>Systems & Matrices:</strong> Solve Systems of Equations, perform Matrix Multiplication, and calculate Determinants.</li>
+            <li><strong>Algebra through Geometry:</strong> Derive and evaluate spatial constraints using second and third-degree polynomial relationships.</li>
+            <li><strong>Symbolic Chains:</strong> Execute Substitution Chains.</li>
+        </ul>
+
+        <h3>🎲 Number Theory & Probability</h3>
+        <p><em>Explore the fundamental properties of integers and the mathematics of chance.</em></p>
+        <ul>
+            <li><strong>Prime Numbers:</strong> Master prime identification and prime factorization.</li>
+            <li><strong>Greatest Common Divisor:</strong> Calculate the largest shared factors between numbers.</li>
+            <li><strong>Least Common Multiple:</strong> Find the smallest common multiples across sets.</li>
+            <li><strong>Calendrical Logic:</strong> Apply modular arithmetic to mentally calculate the exact day of the week for historical or future dates.</li>
+            <li><strong>Probability:</strong> Internalize risk with Dice Probability and Coin Combinations.</li>
+        </ul>
+
+        <h3>🧠 Memory & Focus</h3>
+        <p><em>Specialized exercises designed to increase your 'Mental RAM' and focus.</em></p>
+        <ul>
+            <li><strong>Memory Loads:</strong> High-digit Memory retention.</li>
+            <li><strong>Piano:</strong> Compute using sound instead of visual inputs in the Piano exercise.</li>
+            <li><strong>Dynamic Attention:</strong> Master Mental Gravity and Dynamic Counting.</li>
+        </ul>
+    </div>
+
+    <div class="column">
+        <h3>🧭 Spatial Reasoning</h3>
+        <p><em>Develop a 'mental GPS' by performing complex transformations in 2D and 3D space.</em></p>
+        <ul>
+            <li><strong>Movement:</strong> Calculate movement on a virtual 3D coordinate system through Orthogonal and Diagonal Translations, Rotations, and Symmetry.</li>
+            <li><strong>Projection:</strong> Master Adjacent and Opposite Projections on cubes of different sizes.</li>
+            <li><strong>Pathfinding:</strong> Solve the Shortest Path and evaluate Eulerian circuits in Königsberg Bridge problems.</li>
+        </ul>
+
+        <h3>🌀 Recurrences</h3>
+        <p><em>Train your brain to handle multiple variables and recursive patterns simultaneously.</em></p>
+        <ul>
+            <li><strong>Pattern Recognition:</strong> Master Recurrence Relations, find Recurrence Coefficients, and identify Missing Terms in complex sequences.</li>
+            <li><strong>Continued Fractions:</strong> Break down rational values into continued fractions, and reverse-engineer standard fractions from their coefficients.</li>
+            <li><strong>Algorithmic Sequences:</strong> Solve the recursive logic of the Josephus Problem.</li>
+            <li><strong>Numeric Progressions:</strong> Master the numerical expansions of Generalised Pascal Patterns.</li>
+        </ul>
+
+        <h3>🧩 Computer Science & Logic</h3>
+        <p><em>Bridge the gap between mathematics and computer science.</em></p>
+        <ul>
+            <li><strong>Code Execution:</strong> Run Pseudocode in your head and manage Parallel Computing scheduling.</li>
+            <li><strong>Algorithmic Puzzles:</strong> Solve the Towers of Hanoi, Safe Cracker modulo-logic, and Water Jug puzzles.</li>
+            <li><strong>Logic Grids:</strong> Complex spatial logic with Sudoku (2D & 3D), Bridges, and Sliding Puzzles.</li>
+            <li><strong>Map Coloring:</strong> Calculate the maximum number of cells that can be grouped under strict adjacency constraints.</li>
+            <li><strong>Cellular Automata:</strong> Compute subsequent generations of Cellular Growth patterns based on strict algorithmic rules.</li>
+        </ul>
+    </div>
+
+</div>
+
+<hr>
+                    <h2>Tune the Engine</h2>
+                    <p>Customize the platform to your specific level:</p>
+                    <ul>
+                        <li><strong>Flexible Exercise Selection:</strong> Tailor every session to your immediate objectives. Whether you want to master a single exercise or tackle the full 50-exercise circuit, the platform adapts to your pace. The cycle continues seamlessly.</li>
+                        <li><strong>Difficulty Scaling:</strong> Granular controls to move past the "instant answer" phase and back into the productive struggle.</li>
+                        <li><strong>Order logic:</strong> Choose Sequential to build momentum or Random to test your adaptability.</li>
+                        <li><strong>Advanced Complexity (Base/Remap):</strong> For those who have mastered standard computation, switch to Base 2–9 to force your brain out of its decimal comfort zone, or activate Remapping to completely overwrite how you process standard digits. Remapping severs the tie between symbol and value—forcing your brain to compute when the symbol "1" actually means 3, "2" means 7...</li>
+                        <li><strong>Precision Timing:</strong> Control the momentum of your training session. Adjust the exact delay before the engine automatically loads the next exercise. Set a 0-second jump for correct answers to maintain a rapid-fire flow state, or program a 2-minute delay for incorrect answers, giving yourself time to reverse-engineer complex solutions before moving on. You can always click on "Skip" to move on.</li>
+                        <li><strong>Memory Mode:</strong> Toggle this constraint to force immediate retention. You set the exact exposure time; once the clock hits zero, the exercise vanishes, forcing you to hold the variables and compute entirely in your working memory.</li>
+
+                    </ul>
+                </div>
+
+                <div class="lang-es">
+    <h1>Numeristas: Entrenamiento cerebral a través de las matemáticas</h1>
+    <p>Numeristas es una plataforma de entrenamiento cerebral que incluye 50 ejercicios matemáticos variados, pensados para ejercitar el cálculo mental con unos requisitos mínimos.</p>
+
+    <h2>La filosofía</h2>
+    <ul>
+        <li><strong>La trampa de la respuesta inmediata:</strong> Si sabes la respuesta en una décima de segundo no estás entrenando, estás recitando. En tal caso hay que aumentar la dificultad. Todos los ejercicios tienen varios niveles.</li>
+        <li><strong>Abraza la fricción:</strong> El verdadero crecimiento ocurre en la "zona de esfuerzo". Bien sea que cueste 30 segundos o 30 minutos, el objetivo es encontrar el límite de tu capacidad mental.</li>
+        <li><strong>Computación para adultos:</strong> Mientras que 2 + 2 cumple su propósito para los niños, Numeristas está diseñado para adultos que desean mantener y expandir su agilidad cognitiva.</li>
+        <li><strong>Requisitos mínimos:</strong> No necesitas un doctorado en Matemáticas. Hemos eliminado el relleno, intentando que los conocimientos para poder disfrutar de todos los ejercicios sean mínimos.</li>
+        <li><strong>Feedback integrado:</strong> En ejercicios especializados fuera del plan de estudios estándar proporcionamos simulaciones completas con todos los pasos hasta la respuesta final. Tan solo hay 2 excepciones a esta regla.</li>
+    </ul>
+
+    <h2>El panorama de entrenamiento</h2>
+    <p>En Numeristas abarcamos un amplio espectro de disciplinas. Tanto si te apasiona la aritmética, el pensamiento recursivo, la lógica algorítmica o el razonamiento espacial, aquí encontrarás el espacio ideal para desarrollar tu potencial.</p>
+
+    <div class="columns">
+        <div class="column">
+            <h3>🔢 Aritmética y álgebra</h3>
+            <p><em>Domina el lenguaje fundamental de los números y luego adéntrate en el álgebra.</em></p>
+            <ul>
+                <li><strong>Lo esencial:</strong> Entrenamiento de precisión en Suma, Resta, Multiplicación, División y Fracciones.</li>
+                <li><strong>Zonas Horarias:</strong> Calcula conversiones de horas globales.</li>
+                <li><strong>Potencias avanzadas:</strong> Aborda Potencias, Raíces y Logaritmos para construir intuición.</li>
+                <li><strong>Sistemas alternativos:</strong> Domina las Conversiones de Base para liberarte del pensamiento exclusivamente decimal.</li>
+                <li><strong>Sistemas y matrices:</strong> Resuelve Sistemas de Ecuaciones, realiza Multiplicación de Matrices y calcula Determinantes.</li>
+                <li><strong>Álgebra a través de la geometría:</strong> Resuelve problemas geométricos con polinomios de segundo y tercer grado.</li>
+                <li><strong>Cadenas simbólicas:</strong> Ejecuta Cadenas de Sustitución.</li>
+            </ul>
+
+            <h3>🎲 Teoría de números y probabilidad</h3>
+            <p><em>Explora las propiedades fundamentales de los enteros y las matemáticas del azar.</em></p>
+            <ul>
+                <li><strong>Números primos:</strong> Domina la identificación y la factorización de números primos.</li>
+                <li><strong>Máximo común Divisor:</strong> Calcula los factores compartidos más grandes entre números.</li>
+                <li><strong>Mínimo común múltiplo:</strong> Encuentra los múltiplos comunes más pequeños entre números.</li>
+                <li><strong>Día de la semana:</strong> Aplica la aritmética modular para calcular mentalmente el día exacto de la semana para fechas históricas o futuras.</li>
+                <li><strong>Probabilidad:</strong> Internaliza el riesgo con Probabilidad de Dados y Combinaciones de Monedas.</li>
+            </ul>
+
+            <h3>🧠 Memoria y concentración</h3>
+            <p><em>Ejercicios especializados diseñados para aumentar tu 'RAM Mental' y concentración.</em></p>
+            <ul>
+                <li><strong>Memoria:</strong> Recuerda números cada vez con una mayor cantidad de dígitos.</li>
+                <li><strong>Piano:</strong> Calcula usando sonido en lugar de entradas visuales en el ejercicio del Piano.</li>
+                <li><strong>Atención dinámica:</strong> Realiza sumas de números que cambian dinámicamente (Mental Gravity) o cuenta el total de cuadrados que aparecen dinámicamente (Dynamic Count).</li>
+            </ul>
+        </div>
+
+        <div class="column">
+            <h3>🧭 Razonamiento espacial</h3>
+            <p><em>Desarrolla un 'GPS mental' realizando transformaciones complejas en el espacio 2D y 3D.</em></p>
+            <ul>
+                <li><strong>Movimiento:</strong> Calcula el movimiento en un sistema de coordenadas 3D virtual a través de Traslaciones Ortogonales y Diagonales, Rotaciones y Simetría.</li>
+                <li><strong>Proyección:</strong> Domina las Proyecciones Adyacentes y Opuestas en cubos de diferentes tamaños.</li>
+                <li><strong>Búsqueda de caminos:</strong> Resuelve el Camino Más Corto y evalúa circuitos Eulerianos en problemas de los Puentes de Königsberg.</li>
+            </ul>
+
+            <h3>🌀 Recurrencias</h3>
+            <p><em>Entrena tu cerebro para manejar múltiples variables y patrones recursivos simultáneamente.</em></p>
+            <ul>
+                <li><strong>Reconocimiento de patrones:</strong> Domina las Relaciones de Recurrencia, encuentra Coeficientes de Recurrencia e identifica Términos Faltantes en secuencias complejas.</li>
+                <li><strong>Fracciones continuas:</strong> Descompón valores racionales en fracciones continuas o sigue el camino inverso, encuentra la fracción que corresponde a unos coeficientes dados.</li>
+                <li><strong>Secuencias algorítmicas:</strong> Resuelve la lógica recursiva del Problema de Flavio Josefo.</li>
+                <li><strong>Progresiones numéricas:</strong> Domina las expansiones numéricas de los Patrones de Pascal Generalizados.</li>
+            </ul>
+
+            <h3>🧩 Informática y lógica</h3>
+            <p><em>Cierra la brecha entre las matemáticas y la informática.</em></p>
+            <ul>
+                <li><strong>Ejecución de código y computación paralela:</strong> Ejecuta Pseudocódigo en tu cabeza y averigua cuál es la forma más eficiente de gestionar recursos disponibles en paralelo.</li>
+                <li><strong>Acertijos algorítmicos:</strong> Resuelve las Torres de Hanói, la lógica modular del Rompecajas y los acertijos de Jarras de Agua.</li>
+                <li><strong>Cuadrículas lógicas:</strong> Lógica espacial compleja con Sudoku (2D y 3D), Puentes y Rompecabezas Deslizantes.</li>
+                <li><strong>Coloración de mapas:</strong> Calcula el número máximo de celdas que pueden agruparse bajo estrictas restricciones de adyacencia.</li>
+                <li><strong>Autómatas celulares:</strong> Calcula las generaciones posteriores de patrones de Crecimiento Celular basados en reglas algorítmicas estrictas.</li>
+            </ul>
+        </div>
+    </div>
+                    <hr>
+<h2>Afina el Motor</h2>
+<p>Personaliza la plataforma a tu nivel específico, tan solo tienes que pulsar en el botón de ajustes y modificar los parámetros:</p>
+<ul>
+    <li><strong>Selección flexible de ejercicios:</strong> Adapta cada sesión a tus objetivos inmediatos. Ya sea que quieras dominar un solo ejercicio o abordar el circuito completo de 50 ejercicios, la plataforma se adapta a tu ritmo. El ciclo continúa sin interrupciones.</li>
+    <li><strong>Ajustes de dificultad de cada ejercicio individual:</strong> Controles granulares para superar la fase de "respuesta inmediata" y volver al esfuerzo productivo.</li>
+    <li><strong>Orden de los ejercicios:</strong> Elige Secuencial para ganar impulso o Aleatorio para poner a prueba tu adaptabilidad.</li>
+    <li><strong>Complejidad avanzada (Base/Remapeo):</strong> Aquellos que hayan dominado la computación estándar pueden cambiar la base numérica a 2–9 en algunos ejercicios específicos para forzar a su cerebro a salir de su zona de confort decimal. También pueden activar el Remapeo para sobrescribir por completo cómo procesan los dígitos estándar. El remapeo rompe el vínculo entre símbolo y valor—obligando a tu cerebro a calcular cuando el símbolo "1" en realidad significa 3, el "2" significa 7...</li>
+    <li><strong>Tiempo entre ejercicios:</strong> Controla el ritmo de tu sesión de entrenamiento. Ajusta el retraso exacto que el motor tarda en cargar el siguiente ejercicio. Si no quieres perder el tiempo leyendo "correcto" puedes fijar un salto de 0 segundos en respuestas correctas. Para respuestas incorectas puedes programar un retraso más largo, de 5, 10, 60... segundos, para que te de tiempo a averiguar qué falló en el razonamiento. En ejercicios que tengan simulaciones como feedback el contador global está deshabilitado, simplemente cuando termina la simulación el motor salta al siguiente ejercicio en pocos segundos. Siempre puedes hacer click en "Skip" para continuar.</li>
+    <li><strong>Modo memoria:</strong> Activar esta opción hará que algunos ejercicios básicos se compliquen, puesto que al terminar el tiempo establecido desaparecerán de la pantalla. En tal caso, hay que retener el ejercicio y luego calcular mentalmente todos los pasos, por lo que la carga cognitiva es superior.</li>
+</ul>
+</div>
+
+                <div class="lang-zh">
+                    <h1>Numeristas: 高性能大脑训练</h1>
+                    <p>Numeristas 是一个高性能大脑训练平台，旨在通过深度专注和极低的前提要求来突破您的计算极限。</p>
+                    <h2>理念</h2>
+                    <ul>
+                        <li><strong>瞬答陷阱：</strong> 如果你能在一十分之一秒内得出答案，那你不是在训练，而是在背诵。</li>
+                        <li><strong>拥抱摩擦：</strong> 真正的成长发生在“挣扎区”。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="view-addition">
+
+                <div class="lang-en">
+                    <h1>Tutorial: Addition</h1>
+                    <p><strong>Engine Specifications:</strong></p>
+                    <ul>
+                        <li><strong>Operands:</strong> 2 to 6 simultaneous variables.</li>
+                        <li><strong>Magnitude:</strong> 1 to 6 digits per operand.</li>
+                        <li><strong>Allow negative values:</strong> Optional.</li>
+                        <li><strong>Advanced Complexity:</strong> Optional.</li>
+                    </ul>
+
+                    <h3>The Objective</h3>
+                    <p>Compute the exact sum of the presented numerical values.</p>
+
+                    <h3>Constraint Logic: Alternative Bases</h3>
+                    <p>If the Base modifier is active, an indicator circle at the top center of the screen will display the current numerical base (e.g., <strong>3</strong>).</p>
+                    <ul>
+                        <li><strong>Displayed:</strong> 101 + 102</li>
+                        <li><strong>Decimal Translation:</strong> 10 + 11 = 21</li>
+                        <li><strong>Required Input:</strong>It should be written in base 3: 210</li>
+                    </ul>
+                </div>
+
+                <div class="lang-es">
+    <h1>Tutorial: Suma</h1>
+
+    <p><strong>Especificaciones del Motor:</strong></p>
+    <ul>
+        <li><strong>Operandos:</strong> De 2 a 6 variables simultáneas.</li>
+        <li><strong>Magnitud:</strong> De 1 a 6 dígitos por operando.</li>
+        <li><strong>Permitir valores negativos:</strong> Opcional.</li>
+        <li><strong>Complejidad Avanzada (Base/Remapeo):</strong> Opcional.</li>
+        <li><strong>Ritmo:</strong> Temporizador global.</li>
+    </ul>
+
+    <h3>El Objetivo</h3>
+    <p>Calcular la suma exacta de los valores numéricos presentados.</p>
+
+    <h3>Bases alternativas</h3>
+    <p>Si el modificador de Base/Remap está activo, un círculo indicador en la parte superior central de la pantalla mostrará la base numérica actual (ej. <strong>3</strong>). Las variables presentadas están expresadas en esa base y la respuesta enviada también debe usar esa misma base.</p>
+
+    <p><strong>Ejemplo (Base 3):</strong></p>
+    <ul>
+        <li><strong>Mostrado:</strong> 101 + 102</li>
+        <li><strong>Traducción a decimal:</strong> 10 + 11 = 21</li>
+        <li><strong>Entrada Requerida:</strong> 210 (que es 21 convertido de nuevo a Base 3)</li>
+    </ul>
+
+    <h3>Remapeo</h3>
+    <p>Si el modificador de Remapeo está activo, el círculo indicador mostrará una <strong>R</strong>. Esto significa que los símbolos visuales han sido alterados y ya no representan sus valores numéricos estándar. Sin embargo, tu respuesta final siempre deberá ingresarse utilizando los dígitos estándar, sin remapear. Es recomendable generar un nuevo remapeo en cuanto los cálculos mentales con el actual se sientan automáticos.</p>
+
+    <p><strong>Ejemplo de Mapeo:</strong> 1=3, 2=1, 3=2, 4=5, 5=4, 6=7, 7=8, 8=9, 9=6</p>
+    <ul>
+        <li><strong>Mostrado:</strong> 12 + 34</li>
+        <li><strong>Traducción mental:</strong> El símbolo '1' significa 3, y el '2' significa 1 (Valor Real: 31). El símbolo '3' significa 2, y el '4' significa 5 (Valor Real: 25).</li>
+        <li><strong>Computación real:</strong> 31 + 25 = 56</li>
+        <li><strong>Entrada requerida:</strong> 56</li>
+    </ul>
+</div>
+
+                <div class="lang-zh">
+                    <h1>教程：加法</h1>
+                    <p><strong>引擎规格：</strong></p>
+                    <ul>
+                        <li><strong>操作数：</strong> 2至6个并发变量。</li>
+                        <li><strong>量级：</strong> 每个操作数1至6位数字。</li>
+                    </ul>
+                    <h3>目标</h3>
+                    <p>尽可能快速、准确地计算出所提供数值的精确总和。</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Store current states
+        let currentLang = 'en';
+        let currentView = 'home';
+
+        function setLang(lang) {
+            // Update body classes for CSS rendering
+            document.body.classList.remove('show-en', 'show-es', 'show-zh');
+            document.body.classList.add('show-' + lang);
+            currentLang = lang;
+
+            // Manage Top Language Buttons UI
+            ['en', 'es', 'zh'].forEach(l => document.getElementById('btn-' + l).classList.remove('primary'));
+            document.getElementById('btn-' + lang).classList.add('primary');
+
+        }
+
+        function setView(view) {
+            // Update body classes for CSS rendering
+            document.body.classList.remove('show-home', 'show-addition');
+            document.body.classList.add('show-' + view);
+            currentView = view;
+
+            // Reset all sidebar nav buttons to default
+            const navButtons = document.querySelectorAll('[id^="nav-home-"], [id^="nav-add-"]');
+            navButtons.forEach(btn => btn.classList.remove('primary'));
+
+            // Apply 'primary' class to the active view buttons across all languages
+            if (view === 'home') {
+                document.getElementById('nav-home-en').classList.add('primary');
+                document.getElementById('nav-home-es').classList.add('primary');
+                document.getElementById('nav-home-zh').classList.add('primary');
+            } else if (view === 'addition') {
+                document.getElementById('nav-add-en').classList.add('primary');
+                document.getElementById('nav-add-es').classList.add('primary');
+                document.getElementById('nav-add-zh').classList.add('primary');
+            }
+
+            // Scroll to top of the main container when switching views
+            document.getElementById('main').scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
