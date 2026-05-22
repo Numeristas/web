@@ -130,9 +130,27 @@
         .column { flex: 1; }
 
         @media (max-width: 768px) {
-            body { flex-direction: column; }
-            #sidebar { width: 100%; height: auto; }
-            .columns { flex-direction: column; gap: 0; }
+            body {
+                flex-direction: column;
+                height: auto; /* Unlocks the height for natural scrolling */
+                overflow: auto;
+            }
+            #sidebar {
+                width: 100%;
+                height: auto;
+                order: 2; /* Pushes the entire sidebar to the bottom */
+                border-right: none;
+                border-top: 1px solid var(--border-light);
+            }
+            #main {
+                order: 1; /* Pulls the main content to the top */
+                overflow-y: visible;
+                padding: 1.5rem 1rem;
+            }
+            .columns {
+                flex-direction: column;
+                gap: 0;
+            }
         }
 
         /* --- EXPANDER --- */
