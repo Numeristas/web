@@ -250,12 +250,12 @@
                         <span class="lang-es">⭐ Califica la app</span>
                         <span class="lang-zh">⭐ 评价应用</span>
                     </button>
-                    <button>
+                    <button onclick="sendFeedback()">
                         <span class="lang-en">💬 Feedback</span>
                         <span class="lang-es">💬 Feedback</span>
                         <span class="lang-zh">💬 反馈</span>
                     </button>
-                    <button>
+                    <button onclick="openContribute()">
                         <span class="lang-en">☕ Contribute</span>
                         <span class="lang-es">☕ Contribuye</span>
                         <span class="lang-zh">☕ 贡献</span>
@@ -699,6 +699,17 @@
             // Scroll to top of the main container when switching views
             document.getElementById('main').scrollTop = 0;
         }
+
+        function sendFeedback() {
+    const subject = encodeURIComponent("Numeristas Web Feedback");
+    const body = encodeURIComponent("Hi guys,\n\nI have some feedback regarding Numeristas:");
+    window.location.href = `mailto:info@numeristas.com?subject=${subject}&body=${body}`;
+}
+
+        function openContribute() {
+    window.open("https://www.buymeacoffee.com/yourusername", "_blank");
+
+}
     </script>
 </body>
 </html>
