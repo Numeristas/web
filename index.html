@@ -132,25 +132,27 @@
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
-                height: auto; /* Unlocks the height for natural scrolling */
-                overflow: auto;
-            }
-            #sidebar {
-                width: 100%;
                 height: auto;
-                order: 2; /* Pushes the entire sidebar to the bottom */
-                border-right: none;
-                border-top: 1px solid var(--border-light);
-            }
-            #main {
-                order: 1; /* Pulls the main content to the top */
-                overflow-y: visible;
+                overflow: auto;
                 padding: 1.5rem 1rem;
+                gap: 1rem; /* Adds clean spacing between blocks */
             }
-            .columns {
-                flex-direction: column;
-                gap: 0;
+
+            /* Dissolves the container walls on mobile so we can reorder children freely */
+            #sidebar, #main, .block-container {
+                display: contents;
             }
+
+            hr { display: none; } /* Hides lines to keep the mobile stack clean */
+            .top-menu { flex-wrap: wrap; margin-bottom: 0; }
+
+            /* --- THE VERTICAL TELEPORTATION (MOBILE ORDER) --- */
+            #mobile-lang-wrap { order: 1; }
+            #mobile-top-menu { order: 2; }
+            #mobile-home-wrap { order: 3; }
+            #tutorials-expander { order: 4; }
+            .view-home, .view-addition { order: 5; }
+            #legal-expander { order: 6; }
         }
 
         /* --- EXPANDER --- */
@@ -181,7 +183,7 @@
 <body class="show-en show-home">
 
     <aside id="sidebar">
-        <div class="row">
+        <div id="mobile-lang-wrap" class="row">
             <button id="btn-en" class="primary" onclick="setLang('en')">EN</button>
             <button id="btn-es" onclick="setLang('es')">ES</button>
             <button id="btn-zh" onclick="setLang('zh')">ZH</button>
@@ -189,69 +191,70 @@
 
         <hr>
 
-        <div class="lang-en"><button id="nav-home-en" class="primary" onclick="setView('home')">🏠 Home</button></div>
-        <div class="lang-es"><button id="nav-home-es" class="primary" onclick="setView('home')">🏠 Inicio</button></div>
-        <div class="lang-zh"><button id="nav-home-zh" class="primary" onclick="setView('home')">🏠 首页</button></div>
+        <div id="mobile-home-wrap">
+            <div class="lang-en"><button id="nav-home-en" class="primary" onclick="setView('home')">🏠 Home</button></div>
+            <div class="lang-es"><button id="nav-home-es" class="primary" onclick="setView('home')">🏠 Inicio</button></div>
+            <div class="lang-zh"><button id="nav-home-zh" class="primary" onclick="setView('home')">🏠 首页</button></div>
+        </div>
 
-        <div class="lang-en sidebar-section-title">TUTORIALS</div>
-        <div class="lang-es sidebar-section-title">TUTORIALES</div>
-        <div class="lang-zh sidebar-section-title">教程</div>
-
-        <div class="lang-en"><button id="nav-add-en" onclick="setView('addition')">Addition</button></div>
-        <div class="lang-es"><button id="nav-add-es" onclick="setView('addition')">Suma</button></div>
-        <div class="lang-zh"><button id="nav-add-zh" onclick="setView('addition')">加法</button></div>
+        <details id="tutorials-expander">
+            <summary class="sidebar-section-title" style="margin-top: 0; margin-bottom: 0;">
+                <span class="lang-en">TUTORIALS</span>
+                <span class="lang-es">TUTORIALES</span>
+                <span class="lang-zh">教程</span>
+            </summary>
+            <div style="margin-top: 1rem;">
+                <div class="lang-en"><button id="nav-add-en" onclick="setView('addition')">Addition</button></div>
+                <div class="lang-es"><button id="nav-add-es" onclick="setView('addition')">Suma</button></div>
+                <div class="lang-zh"><button id="nav-add-zh" onclick="setView('addition')">加法</button></div>
+            </div>
+        </details>
 
         <hr>
 
-        <details>
+        <details id="legal-expander">
             <summary>
                 <span class="lang-en">Legal & Privacy</span>
-                <span class="lang-es">Legal y privacidad</span>
+                <span class="lang-es">Legal y Privacidad</span>
                 <span class="lang-zh">法律与隐私</span>
             </summary>
 
             <div class="lang-en">
-                <p><strong>Contact:</strong> Any feedback or requests are welcome: info@numeristas.com</p>
-                <p><strong>Privacy Policy:</strong> We don't collect any personal data or tracking cookies.</p>
-                <p><strong>Disclaimer & Liability:</strong> This platform was engineered with extensive use of Artificial Intelligence. As a result, the engine or the generated logic may contain errors or inaccuracies. The developer assumes no responsibility or liability for any issues, crashes, or incorrect computations arising from its use. Furthermore, we make no medical or cognitive claims regarding this software.</p>
-                <p><strong>Hardware Warning:</strong> Please be advised that the final exercise utilizes an exact C++ solver that exhaustively computes every possible branch of a decision tree. This algorithmic execution is hardware and power intensive, and may cause rapid battery drain or thermal throttling on mobile devices.</p>
-            </div>
+                <p><strong>Contact:</strong> Any feedback or requests are welcome...</p>
+                </div>
             <div class="lang-es">
-                <p><strong>Contacto:</strong> Cualquier comentario o solicitud es bienvenido: info@numeristas.com</p>
-                <p><strong>Política de privacidad:</strong> No recopilamos datos personales ni cookies de seguimiento.</p>
-                <p><strong>Descargo de responsabilidad:</strong> Esta plataforma ha sido desarrollada con un uso extensivo de la inteligencia artificial. Como resultado, el motor o la lógica generada pueden contener errores o inexactitudes. El desarrollador no asume ninguna responsabilidad legal por problemas, fallos o cálculos incorrectos derivados de su uso. Además, no afirmamos que el uso de este software aporte ningún beneficio médico o cognitivo.</p>
-                <p><strong>Advertencia de hardware:</strong> Tenga en cuenta que el último ejercicio utiliza un solucionador exacto en C++ que calcula exhaustivamente cada rama posible de un árbol de decisiones. Esta ejecución algorítmica requiere un uso intensivo de hardware y energía, y puede causar un rápido consumo de batería o estrangulamiento térmico (thermal throttling) en dispositivos móviles.</p>
-            </div>
+                <p><strong>Contacto:</strong> Cualquier comentario o solicitud...</p>
+                </div>
             <div class="lang-zh">
-                <p><strong>联系方式：</strong> 欢迎提供任何反馈或要求：info@numeristas.com</p>
-                <p><strong>隐私政策：</strong> 我们不收集任何个人数据或跟踪 cookie。</p>
-                <p><strong>免责声明：</strong> 本平台在开发过程中广泛使用了人工智能...</p>
-                <p><strong>硬件警告：</strong> 请注意，最终练习使用了一个精确的 C++ 求解器...</p>
-            </div>
+                <p><strong>联系方式：</strong> 欢迎提供任何反馈或要求...</p>
+                </div>
         </details>
     </aside>
 
     <main id="main">
         <div class="block-container">
 
-            <div class="top-menu">
-    <button>
-        <span class="lang-en">⭐ Rate App</span>
-        <span class="lang-es">⭐ Califica la app</span>
-        <span class="lang-zh">⭐ 评价应用</span>
-    </button>
-    <button>
-        <span class="lang-en">💬 Feedback</span>
-        <span class="lang-es">💬 Feedback</span>
-        <span class="lang-zh">💬 反馈</span>
-    </button>
-    <button>
-        <span class="lang-en">☕ Contribute</span>
-        <span class="lang-es">☕ Contribuye</span>
-        <span class="lang-zh">☕ 贡献</span>
-    </button>
-</div>
+            <div id="mobile-top-menu">
+                <div class="top-menu">
+                    <button>
+                        <span class="lang-en">⭐ Rate App</span>
+                        <span class="lang-es">⭐ Califica la app</span>
+                        <span class="lang-zh">⭐ 评价应用</span>
+                    </button>
+                    <button>
+                        <span class="lang-en">💬 Feedback</span>
+                        <span class="lang-es">💬 Feedback</span>
+                        <span class="lang-zh">💬 反馈</span>
+                    </button>
+                    <button>
+                        <span class="lang-en">☕ Contribute</span>
+                        <span class="lang-es">☕ Contribuye</span>
+                        <span class="lang-zh">☕ 贡献</span>
+                    </button>
+                </div>
+            </div>
             <hr style="margin-bottom: 2rem;">
+
 
             <div class="view-home">
 
