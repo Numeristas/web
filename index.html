@@ -151,7 +151,7 @@
             #mobile-top-menu { order: 2; }
             #mobile-home-wrap { order: 3; }
             #tutorials-expander { order: 4; }
-            .view-home, .view-addition { order: 5; }
+            [class*="view-"] { order: 5; }
             #legal-expander { order: 6; }
         }
 
@@ -169,17 +169,19 @@
 
         /* --- LOGIC HIDERS --- */
         .lang-en, .lang-es, .lang-zh { display: none; }
-        .view-home, .view-addition { display: none; }
+         [class*="view-"] { display: none; }
 
         /* Active states triggered by JS */
         .show-en .lang-en { display: block; }
         .show-es .lang-es { display: block; }
         .show-zh .lang-zh { display: block; }
 
-        .show-home .view-home { display: block; }
-        .show-addition .view-addition { display: block; }
+        body.show-home .view-home { display: block; }
+        body.show-addition .view-addition { display: block; }
+        body.show-subtraction .view-subtraction { display: block; }
     </style>
 </head>
+
 <body class="show-en show-home">
 
     <aside id="sidebar">
@@ -207,6 +209,14 @@
                 <div class="lang-en"><button id="nav-add-en" onclick="setView('addition')">Addition</button></div>
                 <div class="lang-es"><button id="nav-add-es" onclick="setView('addition')">Suma</button></div>
                 <div class="lang-zh"><button id="nav-add-zh" onclick="setView('addition')">加法</button></div>
+
+                <div class="lang-en"><button id="nav-sub-en" onclick="setView('subtraction')">Subtraction</button></div>
+                <div class="lang-es"><button id="nav-sub-es" onclick="setView('subtraction')">Resta</button></div>
+                <div class="lang-zh"><button id="nav-sub-zh" onclick="setView('subtraction')">减法</button></div>
+
+                <div class="lang-en"><button id="nav-mul-en" onclick="setView('multiplication')">Multiplication</button></div>
+                <div class="lang-es"><button id="nav-mul-es" onclick="setView('multiplication')">Multiplicación</button></div>
+                <div class="lang-zh"><button id="nav-mul-zh" onclick="setView('multiplication')">乘法</button></div>
             </div>
         </details>
 
@@ -333,7 +343,6 @@
         <li><strong>Algorithmic Sequences:</strong> Solve the recursive logic of the Josephus Problem.</li>
         <li><strong>Numeric Progressions:</strong> Master the numerical expansions of Generalized Pascal Patterns.</li>
     </ul>
-
     <h3>🧩 Computer Science and Logic</h3>
     <p><em>Bridge the gap between mathematics and computer science.</em></p>
     <ul>
@@ -344,7 +353,8 @@
         <li><strong>Cellular Automata:</strong> Calculate subsequent generations of Cellular Growth patterns based on strict algorithmic rules.</li>
     </ul>
 </div>
-         </div>
+    
+    </div>
                     <h2>Tune the Engine</h2>
     <p>Customize the platform to your specific level; simply click the settings button and modify the parameters:</p>
     <ul>
@@ -364,7 +374,7 @@
     <h2>La filosofía</h2>
     <ul>
         <li><strong>La trampa de la respuesta inmediata:</strong> Si sabes la respuesta en una décima de segundo no estás entrenando, estás recitando. En tal caso hay que aumentar la dificultad. Todos los ejercicios tienen varios niveles.</li>
-        <li><strong>Abraza la fricción:</strong> El verdadero crecimiento ocurre en la "zona de esfuerzo". Bien sea que cueste 30 segundos o 30 minutos, el objetivo es encontrar el límite de tu capacidad mental.</li>
+        <li><strong>Abraza la fricción:</strong> El verdadero crecimiento ocurre en la "zona de esfuerzo". Cueste lo que cueste, ya sean 30 segundos o 30 minutos, el objetivo es encontrar el límite de tu capacidad mental.</li>
         <li><strong>Computación para adultos:</strong> Mientras que 2 + 2 cumple su propósito para los niños, Numeristas está diseñado para adultos que desean mantener y expandir su agilidad cognitiva.</li>
         <li><strong>Requisitos mínimos:</strong> No necesitas un doctorado en Matemáticas. Hemos eliminado el relleno, intentando que los conocimientos para poder disfrutar de todos los ejercicios sean mínimos.</li>
         <li><strong>Feedback integrado:</strong> En ejercicios especializados fuera del plan de estudios estándar proporcionamos simulaciones completas con todos los pasos hasta la respuesta final. Tan solo hay 2 excepciones a esta regla.</li>
@@ -435,15 +445,15 @@
             </ul>
         </div>
     </div>
-                    <hr>
-<h2>Afina el Motor</h2>
+
+<h2>Afina el motor</h2>
 <p>Personaliza la plataforma a tu nivel específico, tan solo tienes que pulsar en el botón de ajustes y modificar los parámetros:</p>
 <ul>
     <li><strong>Selección flexible de ejercicios:</strong> Adapta cada sesión a tus objetivos inmediatos. Ya sea que quieras dominar un solo ejercicio o abordar el circuito completo de 50 ejercicios, la plataforma se adapta a tu ritmo. El ciclo continúa sin interrupciones.</li>
-    <li><strong>Ajustes de dificultad de cada ejercicio individual:</strong> Controles granulares para superar la fase de "respuesta inmediata" y volver al esfuerzo productivo.</li>
+    <li><strong>Ajustes de dificultad de cada ejercicio individual:</strong> Controles granulares para superar la fase de "respuesta inmediata" y volver al esfuerzo productivo. Se puede aumentar el número de operandos, el de dígitos o el rango de valores en ejercicios numéricos, u otros parámetros en ejercicios más visuales. Si la dificultad de un ejercicio crece exponencialmente se usan rangos de valores, pero si crece linealmente se usan dígitos. </li>
     <li><strong>Orden de los ejercicios:</strong> Elige Secuencial para ganar impulso o Aleatorio para poner a prueba tu adaptabilidad.</li>
     <li><strong>Complejidad avanzada (Base/Remapeo):</strong> Aquellos que hayan dominado la computación estándar pueden cambiar la base numérica a 2–9 en algunos ejercicios específicos para forzar a su cerebro a salir de su zona de confort decimal. También pueden activar el Remapeo para sobrescribir por completo cómo procesan los dígitos estándar. El remapeo rompe el vínculo entre símbolo y valor—obligando a tu cerebro a calcular cuando el símbolo "1" en realidad significa 3, el "2" significa 7...</li>
-    <li><strong>Tiempo entre ejercicios:</strong> Controla el ritmo de tu sesión de entrenamiento. Ajusta el retraso exacto que el motor tarda en cargar el siguiente ejercicio. Si no quieres perder el tiempo leyendo "correcto" puedes fijar un salto de 0 segundos en respuestas correctas. Para respuestas incorectas puedes programar un retraso más largo, de 5, 10, 60... segundos, para que te de tiempo a averiguar qué falló en el razonamiento. En ejercicios que tengan simulaciones como feedback el contador global está deshabilitado, simplemente cuando termina la simulación el motor salta al siguiente ejercicio en pocos segundos. Siempre puedes hacer click en "Skip" para continuar.</li>
+    <li><strong>Tiempo entre ejercicios:</strong> Controla el ritmo de tu sesión de entrenamiento. Ajusta el retraso exacto que el motor tarda en cargar el siguiente ejercicio. Si no quieres perder el tiempo leyendo "correcto" puedes fijar un salto de 0 segundos en respuestas correctas. Para respuestas incorrectas puedes programar un retraso más largo, de 5, 10, 60... segundos, para que te dé tiempo a averiguar qué falló en el razonamiento. En ejercicios que tengan simulaciones como feedback el contador global está deshabilitado, simplemente cuando termina la simulación el motor salta al siguiente ejercicio en pocos segundos. Siempre puedes hacer click en "Skip" para continuar.</li>
     <li><strong>Modo memoria:</strong> Activar esta opción hará que algunos ejercicios básicos se compliquen, puesto que al terminar el tiempo establecido desaparecerán de la pantalla. En tal caso, hay que retener el ejercicio y luego calcular mentalmente todos los pasos, por lo que la carga cognitiva es superior.</li>
 </ul>
 </div>
@@ -526,7 +536,7 @@
             </ul>
         </div>
     </div>
-    <hr>
+
     <h2>引擎调优</h2>
     <p>根据你的具体水平定制平台，只需点击设置按钮并修改参数：</p>
     <ul>
@@ -542,7 +552,7 @@
 
         <div class="view-addition">
 
-                <div class="lang-en">
+            <div class="lang-en">
     <h1>Tutorial: Addition</h1>
 
     <p><strong>Engine Specifications:</strong></p>
@@ -555,7 +565,7 @@
     </ul>
 
     <h3>The Objective</h3>
-    <p>Calculate the exact sum of the numerical values presented.</p>
+    <p>Calculate the exact sum of the given numerical values. If you select a minimum of 2 operands and a maximum of 3, for example, you will receive exercises with either 2 or 3 operands at random, with a 50% probability for each case. In this exercise, the quantities are selected using digits, since the difficulty does not increase exponentially, whereas in others, specific ranges of values will be used.</p>
 
     <h3>Alternative Bases</h3>
     <p>If the Base/Remap modifier is active, an indicator circle at the top center of the screen will show the current numerical base (e.g., <strong>3</strong>). The variables presented are expressed in that base, and the submitted answer must also use that same base.</p>
@@ -582,17 +592,17 @@
                 <div class="lang-es">
     <h1>Tutorial: Suma</h1>
 
-    <p><strong>Especificaciones del Motor:</strong></p>
+    <p><strong>Especificaciones del motor:</strong></p>
     <ul>
         <li><strong>Operandos:</strong> De 2 a 6 variables simultáneas.</li>
         <li><strong>Magnitud:</strong> De 1 a 6 dígitos por operando.</li>
         <li><strong>Permitir valores negativos:</strong> Opcional.</li>
-        <li><strong>Complejidad Avanzada (Base/Remapeo):</strong> Opcional.</li>
+        <li><strong>Complejidad avanzada (Base/Remapeo):</strong> Opcional.</li>
         <li><strong>Ritmo:</strong> Temporizador global.</li>
     </ul>
 
     <h3>El Objetivo</h3>
-    <p>Calcular la suma exacta de los valores numéricos presentados.</p>
+    <p>Calcular la suma exacta de los valores numéricos presentados. Si se eliges un mínimo de 2 operandos y un máximo de 3, por ejemplo, se obtendrán ejercicios con 2 o 3 operandos de manera aleatoria, con un 50% de probabilidad entre ambos casos.</p>
 
     <h3>Bases alternativas</h3>
     <p>Si el modificador de Base/Remap está activo, un círculo indicador en la parte superior central de la pantalla mostrará la base numérica actual (ej. <strong>3</strong>). Las variables presentadas están expresadas en esa base y la respuesta enviada también debe usar esa misma base.</p>
@@ -619,7 +629,8 @@
                 <div class="lang-zh">
     <h1>教程：加法</h1>
 
-    <p><strong>引擎规格：</strong></p>
+    <p><strong>计算所给数值的确切和。例如，若选择至少2个操作数且最多3个操作数，则系统将随机生成包含2个或3个操作数的习题，两种情况出现的概率均为50%。本练习中使用数字来选择数值，因为这样难度不会呈指数级增长；而在其他练习中，则会使用特定的数值范围。
+</strong></p>
     <ul>
         <li><strong>操作数：</strong> 同时出现 2 到 6 个变量。</li>
         <li><strong>位数：</strong> 每个操作数 1 到 6 位数字。</li>
@@ -655,6 +666,242 @@
 
             </div>
 
+            <div class="view-subtraction">
+
+    <!-- ==================== ENGLISH VERSION ==================== -->
+    <div class="lang-en">
+        <h1>Tutorial: Subtraction</h1>
+
+        <p><strong>Engine Specifications:</strong></p>
+        <ul>
+            <li><strong>Operands:</strong> Fixed at 2 simultaneous variables.</li>
+            <li><strong>Magnitude:</strong> From 1 to 6 digits per operand.</li>
+            <li><strong>Allow negative values:</strong> Optional (affects whether the result or operands can be negative).</li>
+            <li><strong>Advanced Complexity (Base/Remapping):</strong> Optional.</li>
+            <li><strong>Pacing:</strong> Global timer / Memory mode.</li>
+        </ul>
+
+        <h3>The Objective</h3>
+        <p>Calculate the exact difference between the two numerical values presented. Unlike other exercises where variables can scale, subtraction keeps a strict structure of 2 operands. The selection of quantities is configured via digits, as the difficulty increases linearly rather than exponentially.</p>
+
+        <h3>Alternative Bases</h3>
+        <p>If the Base/Remap modifier is active, an indicator circle at the top center of the screen will show the current numerical base (e.g., <strong>3</strong>). The variables presented are expressed in that base, and the submitted answer must also use that same base.</p>
+
+        <p><strong>Example (Base 3):</strong></p>
+        <ul>
+            <li><strong>Displayed:</strong> 210 - 102</li>
+            <li><strong>Decimal Translation:</strong> 21 - 11 = 10</li>
+            <li><strong>Required Input:</strong> 101 (which is 10 converted back to Base 3)</li>
+        </ul>
+
+        <h3>Remapping</h3>
+        <p>If the Remapping modifier is active, the indicator circle will display an <strong>R</strong>. Visual symbols are altered and no longer represent standard numerical values, but your final answer must always be entered using standard, non-remapped digits.</p>
+
+        <p><strong>Mapping Example:</strong> 1=3, 2=1, 3=2, 4=5, 5=4, 6=7, 7=8, 8=9, 9=6</p>
+        <ul>
+            <li><strong>Displayed:</strong> 34 - 12</li>
+            <li><strong>Mental Translation:</strong> The symbol '3' means 2, and '4' means 5 (Real Value: 25). The symbol '1' means 3, and '2' means 1 (Real Value: 31).</li>
+            <li><strong>Actual Computation:</strong> 25 - 31 = -6</li>
+            <li><strong>Required Input:</strong> -6</li>
+        </ul>
+    </div>
+
+    <!-- ==================== SPANISH VERSION ==================== -->
+    <div class="lang-es">
+        <h1>Tutorial: Resta</h1>
+
+        <p><strong>Especificaciones del Motor:</strong></p>
+        <ul>
+            <li><strong>Operandos:</strong> Fijado en 2 variables simultáneas.</li>
+            <li><strong>Magnitud:</strong> De 1 a 6 dígitos por operando.</li>
+            <li><strong>Permitir valores negativos:</strong> Opcional.</li>
+            <li><strong>Complejidad Avanzada (Base/Remapeo):</strong> Opcional.</li>
+            <li><strong>Ritmo:</strong> Temporizador global / Modo memoria.</li>
+        </ul>
+
+        <h3>El Objetivo</h3>
+        <p>Calcular la diferencia exacta entre los dos valores numéricos presentados. A diferencia de otros ejercicios donde el número de variables es escalable, en la resta se mantiene una estructura estricta de 2 operandos. Las cantidades se configuran utilizando dígitos, dado que la dificultad crece de forma lineal y no exponencial.</p>
+
+        <h3>Bases alternativas</h3>
+        <p>Si el modificador de Base/Remap está activo, un círculo indicador en la parte superior central de la pantalla mostrará la base numérica actual (ej. <strong>3</strong>). Las variables presentadas están expresadas en esa base y la respuesta enviada también debe usar esa misma base.</p>
+
+        <p><strong>Ejemplo (Base 3):</strong></p>
+        <ul>
+            <li><strong>Mostrado:</strong> 210 - 102</li>
+            <li><strong>Traducción a decimal:</strong> 21 - 11 = 10</li>
+            <li><strong>Entrada Requerida:</strong> 101 (que es 10 convertido de nuevo a Base 3)</li>
+        </ul>
+
+        <h3>Remapeo</h3>
+        <p>Si el modificador de Remapeo está activo, el círculo indicador mostrará una <strong>R</strong>. Esto significa que los símbolos visuales han sido alterados y ya no representan sus valores numéricos estándar. Sin embargo, tu respuesta final siempre deberá ingresarse utilizando los dígitos estándar, sin remapear. Es recomendable generar un nuevo remapeo en cuanto los cálculos mentales con el actual se sientan automáticos.</p>
+
+        <p><strong>Ejemplo de Mapeo:</strong> 1=3, 2=1, 3=2, 4=5, 5=4, 6=7, 7=8, 8=9, 9=6</p>
+        <ul>
+            <li><strong>Mostrado:</strong> 34 - 12</li>
+            <li><strong>Traducción mental:</strong> El símbolo '3' significa 2, y el '4' significa 5 (Valor Real: 25). El símbolo '1' significa 3, y el '2' significa 1 (Valor Real: 31).</li>
+            <li><strong>Computación real:</strong> 25 - 31 = -6</li>
+            <li><strong>Entrada requerida:</strong> -6</li>
+        </ul>
+    </div>
+
+    <!-- ==================== CHINESE VERSION ==================== -->
+    <div class="lang-zh">
+        <h1>教程：减法</h1>
+
+        <p><strong>引擎参数：</strong></p>
+        <ul>
+            <li><strong>操作数：</strong> 固定为 2 个同时出现的变量。</li>
+            <li><strong>位数：</strong> 每个操作数 1 到 6 位数字。</li>
+            <li><strong>允许负值：</strong> 可选（影响结果或操作数是否可以为负）。</li>
+            <li><strong>高级复杂度（进制/重映射）：</strong> 可选。</li>
+            <li><strong>节奏：</strong> 全局计时器 / 记忆模式。</li>
+        </ul>
+
+        <h3>目标</h3>
+        <p>计算所显示的两个数值之间的精确差值。与其他可以扩展变量数量的练习不同，减法练习严格固定为 2 个操作数。本练习中通过配置数字位数来调整难度，因为其难度呈线性而非指数级增长。</p>
+
+        <h3>替代进制</h3>
+        <p>如果“进制/重映射”修改器处于激活状态，屏幕上方中央的一个指示圆圈将显示当前的数字进制（例如：<strong>3</strong>）。显示的变量以该进制表示，提交的答案也必须使用该进制。</p>
+
+        <p><strong>示例（3 进制）：</strong></p>
+        <ul>
+            <li><strong>显示内容：</strong> 210 - 102</li>
+            <li><strong>十进制转换：</strong> 21 - 11 = 10</li>
+            <li><strong>要求输入：</strong> 101（这是将 10 转换回 3 进制后的结果）</li>
+        </ul>
+
+        <h3>重映射</h3>
+        <p>如果“重映射”修改器处于激活状态，指示圆圈将显示 <strong>R</strong>。这意味着视觉符号已被改变，不再代表其标准的数值。然而，你的最终答案必须始终使用标准数字（非重映射符号）输入。建议一旦当前映射的心理计算变得自动化，就立即生成一个新的重映射。</p>
+
+        <p><strong>映射示例：</strong> 1=3, 2=1, 3=2, 4=5, 5=4, 6=7, 7=8, 8=9, 9=6</p>
+        <ul>
+            <li><strong>显示内容：</strong> 34 - 12</li>
+            <li><strong>心理转换：</strong> 符号 '3' 代表 2，'4' 代表 5（实际值：25）。符号 '1' 代表 3，'2' 代表 1（实际值：31）。</li>
+            <li><strong>实际计算：</strong> 25 - 31 = -6</li>
+            <li><strong>要求输入：</strong> -6</li>
+        </ul>
+    </div>
+
+</div>
+
+            <div class="view-multiplication">
+
+    <!-- ==================== ENGLISH VERSION ==================== -->
+    <div class="lang-en">
+        <h1>Tutorial: Multiplication</h1>
+
+        <p><strong>Engine Specifications:</strong></p>
+        <ul>
+            <li><strong>Operands:</strong> From 2 to 6 simultaneous variables.</li>
+            <li><strong>Magnitude:</strong> Custom numeric ranges from 1 to 9999 per operand.</li>
+            <li><strong>Allow negative factors:</strong> Optional.</li>
+            <li><strong>Advanced Complexity (Base/Remapping):</strong> Optional.</li>
+            <li><strong>Pacing:</strong> Global timer / Memory mode.</li>
+        </ul>
+
+        <h3>The Objective</h3>
+        <p>Calculate the exact product of the given values. Unlike basic operations that scale by adding digits, the complexity of this exercise increases exponentially. Therefore, the engine shifts to a <strong>Value Range Selection</strong> system, giving you precise granular control over the difficulty.</p>
+
+        <h3>Practical Use Case: Mastering Specific Tables</h3>
+        <p>The range configuration allows you to isolate and eliminate blind spots in your calculation skills. For example, if you want to completely master the <strong>11 times table</strong> up to 11:</p>
+        <ul>
+            <li>Set the minimum and maximum of the <strong>First Operand</strong> to: <mark>11 to 11</mark>.</li>
+            <li>Set the minimum and maximum of the <strong>Second Operand</strong> to: <mark>1 to 11</mark>.</li>
+        </ul>
+        <p>The platform will strictly generate equations within that targeted envelope ($11 \times 3$, $11 \times 8$, $11 \times 5$, etc.), cementing the neural pathways through repetition before you increase the range.</p>
+
+        <h3>Alternative Bases</h3>
+        <p>If the Base/Remap modifier is active, an indicator circle will display the current base (e.g., <strong>3</strong>). The variables are generated in that base, and the submitted answer must match it.</p>
+
+        <p><strong>Example (Base 3):</strong></p>
+        <ul>
+            <li><strong>Displayed:</strong> 12 \times 2</li>
+            <li><strong>Decimal Translation:</strong> 5 \times 2 = 10</li>
+            <li><strong>Required Input:</strong> 101 (which is 10 converted back to Base 3)</li>
+        </ul>
+
+        <h3>Remapping</h3>
+        <p>If active, the indicator circle displays an <strong>R</strong>. Visual symbols are scrambled, forcing you to reconstruct their values before executing the math. Your final answer must always be typed using standard, non-remapped digits.</p>
+    </div>
+
+    <!-- ==================== SPANISH VERSION ==================== -->
+    <div class="lang-es">
+        <h1>Tutorial: Multiplicación</h1>
+
+        <p><strong>Especificaciones del Motor:</strong></p>
+        <ul>
+            <li><strong>Operandos:</strong> De 2 a 6 variables simultáneas.</li>
+            <li><strong>Magnitud:</strong> Rangos de valores personalizados desde 1 hasta 9999 por operando.</li>
+            <li><strong>Permitir factores negativos:</strong> Opcional.</li>
+            <li><strong>Complejidad Avanzada (Base/Remapeo):</strong> Opcional.</li>
+            <li><strong>Ritmo:</strong> Temporizador global / Modo memoria.</li>
+        </ul>
+
+        <h3>El Objetivo</h3>
+        <p>Calcular el producto exacto de los valores presentados. A diferencia de las operaciones básicas que escalan añadiendo dígitos de forma lineal, la dificultad aquí crece de forma exponencial. Por ello, el motor cambia a un sistema de <strong>Selección por Rango de Valores</strong>, otorgando un control granular absoluto sobre la complejidad.</p>
+
+        <h3>Caso de Uso Práctico: Dominar Tablas Específicas</h3>
+        <p>La configuración de rangos te permite aislar y eliminar puntos débiles en tu cálculo mental. Por ejemplo, si deseas dominar por completo la <strong>tabla del 11</strong> hasta el 11:</p>
+        <ul>
+            <li>Configura el mínimo y máximo del <strong>Primer Operando</strong> en: <mark>11 y 11</mark>.</li>
+            <li>Configura el mínimo y máximo del <strong>Segundo Operando</strong> en: <mark>1 y 11</mark>.</li>
+        </ul>
+        <p>La plataforma generará estrictamente operaciones dentro de ese marco objetivo ($11 \times 3$, $11 \times 8$, $11 \times 5$, etc.), consolidando las conexiones neuronales mediante repetición enfocada antes de expandir el rango.</p>
+
+        <h3>Bases alternativas</h3>
+        <p>Si el modificador de Base/Remap está activo, un círculo indicador mostrará la base numérica actual (ej. <strong>3</strong>). Las variables estarán expresadas en esa base y la respuesta también debe enviarse usando esa misma base.</p>
+
+        <p><strong>Ejemplo (Base 3):</strong></p>
+        <ul>
+            <li><strong>Mostrado:</strong> 12 \times 2</li>
+            <li><strong>Traducción a decimal:</strong> 5 \times 2 = 10</li>
+            <li><strong>Entrada Requerida:</strong> 101 (que es 10 convertido de nuevo a Base 3)</li>
+        </ul>
+
+        <h3>Remapeo</h3>
+        <p>Si está activo, el círculo mostrará una <strong>R</strong>. Los símbolos visuales se alteran por completo, obligándote a descifrar el valor real antes de operar. Tu respuesta final siempre deberá ingresarse utilizando los dígitos estándar, sin remapear.</p>
+    </div>
+
+    <!-- ==================== CHINESE VERSION ==================== -->
+    <div class="lang-zh">
+        <h1>教程：乘法</h1>
+
+        <p><strong>引擎参数：</strong></p>
+        <ul>
+            <li><strong>操作数：</strong> 同时出现 2 到 6 个变量。</li>
+            <li><strong>位数：</strong> 每个操作数可自定义 1 到 9999 的数值范围。</li>
+            <li><strong>允许负因数：</strong> 可选。</li>
+            <li><strong>高级复杂度（进制/重映射）：</strong> 可选。</li>
+            <li><strong>节奏：</strong> 全局计时器 / 记忆模式。</li>
+        </ul>
+
+        <h3>目标</h3>
+        <p>计算所给数值的确切乘积。与通过增加位数进行线性扩展的基础练习不同，乘法练习的难度呈指数级增长。因此，引擎切换为<strong>数值范围选择</strong>系统，让您对训练难度拥有精准的细粒度控制。</p>
+
+        <h3>实际应用场景：专精特定乘法表</h3>
+        <p>范围配置功能允许您孤立并消除心算中的盲点。例如，如果您想彻底掌握到 11 为止的 <strong>11 的乘法表</strong>：</p>
+        <ul>
+            <li>将<strong>第一操作数</strong>的最小值和最大值均设为：<mark>11 到 11</mark>。</li>
+            <li>将<strong>第二操作数</strong>的最小值和最大值设为：<mark>1 到 11</mark>。</li>
+        </ul>
+        <p>平台将严格在该特定区间内生成题目（如 $11 \times 3$、$11 \times 8$、$11 \times 5$ 等），在您扩大范围之前，通过针对性重复训练来巩固大脑的记忆通路。</p>
+
+        <h3>替代进制</h3>
+        <p>如果“进制/重映射”修改器处于激活状态，指示圆圈将显示当前的数字进制（例如：<strong>3</strong>）。显示的变量以该进制表示，提交的答案也必须使用该进制。</p>
+
+        <p><strong>示例（3 进制）：</strong></p>
+        <ul>
+            <li><strong>显示内容：</strong> 12 \times 2</li>
+            <li><strong>十进制转换：</strong> 5 \times 2 = 10</li>
+            <li><strong>要求输入：</strong> 101（这是将 10 转换回 3 进制后的结果）</li>
+        </ul>
+
+        <h3>重映射</h3>
+        <p>如果激活，指示圆圈将显示 <strong>R</strong>。视觉符号已被完全打乱，迫使您在计算前先还原其真实数值。您的最终答案必须始终使用标准数字（非重映射符号）输入。</p>
+    </div>
+
+</div>
+
 
     </main>
 
@@ -676,29 +923,32 @@
         }
 
         function setView(view) {
-            // Update body classes for CSS rendering
-            document.body.classList.remove('show-home', 'show-addition');
-            document.body.classList.add('show-' + view);
-            currentView = view;
+    // 1. Clear any previous view classes from the body dynamically
+    const classesToRemove = Array.from(document.body.classList).filter(cls =>
+        cls.startsWith('show-') && cls !== 'show-' + currentLang
+    );
+    classesToRemove.forEach(cls => document.body.classList.remove(cls));
 
-            // Reset all sidebar nav buttons to default
-            const navButtons = document.querySelectorAll('[id^="nav-home-"], [id^="nav-add-"]');
-            navButtons.forEach(btn => btn.classList.remove('primary'));
+    // 2. Set the new view active on the body
+    document.body.classList.add('show-' + view);
+    currentView = view;
 
-            // Apply 'primary' class to the active view buttons across all languages
-            if (view === 'home') {
-                document.getElementById('nav-home-en').classList.add('primary');
-                document.getElementById('nav-home-es').classList.add('primary');
-                document.getElementById('nav-home-zh').classList.add('primary');
-            } else if (view === 'addition') {
-                document.getElementById('nav-add-en').classList.add('primary');
-                document.getElementById('nav-add-es').classList.add('primary');
-                document.getElementById('nav-add-zh').classList.add('primary');
-            }
+    // 3. Strip the 'primary' highlight class from EVERY navigation button instantly
+    document.querySelectorAll('[id^="nav-"]').forEach(btn => btn.classList.remove('primary'));
 
-            // Scroll to top of the main container when switching views
-            document.getElementById('main').scrollTop = 0;
-        }
+    // 4. Automatically highlight the active view buttons for all languages
+    // Maps full view names to your short button IDs (e.g., 'addition' -> 'add')
+    const viewMapping = { 'home': 'home', 'addition': 'add', 'subtraction': 'sub' };
+    const prefix = viewMapping[view] || view.substring(0, 3); // Fallback to first 3 letters if not mapped
+
+    ['en', 'es', 'zh'].forEach(lang => {
+        const targetBtn = document.getElementById(`nav-${prefix}-${lang}`);
+        if (targetBtn) targetBtn.classList.add('primary');
+    });
+
+    // 5. Instantly snap scroll back to top
+    document.getElementById('main').scrollTop = 0;
+}
 
         function sendFeedback() {
     const subject = encodeURIComponent("Numeristas Web Feedback");
