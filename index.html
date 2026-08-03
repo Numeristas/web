@@ -6021,9 +6021,7 @@ HTML
         <li><strong>Execution Condition:</strong> A processor cannot begin computing a node if it is not 100% loaded into RAM.</li>
     </ul>
 
-    <h3>The Old Hardware Paradox (A Bug?)</h3>
-    <p>When analyzing Level 3 breakdowns, you might run into a seemingly strange scenario: the system has two small ready nodes, a fast core with x3 speed, and a slow one with x1 speed. Intuitively, one would think that the x3 core should process all nodes back-to-back consecutively. However, you will see that the optimal simulation deliberately assigns a node to the slow x1 core. This is not a code error.</p>
-    <p>Because the transfer speed from ROM to RAM is 1 unit per second, the true bottleneck of the system is the memory loading speed, not the raw computing power. Processing the node on the fast processor would end up yielding the exact same total time as processing it on the slow one, since the fast processor would stop anyway waiting for the ROM to finish transferring the next block. In these cases of a tie caused by I/O saturation, the app's optimized algorithm always gives priority to the slower hardware to didactically demonstrate that, under certain bottlenecks, older components remain just as efficient.</p>
+
 </div>
 
     <div class="lang-es">
@@ -6057,9 +6055,7 @@ HTML
             <li><strong>Estados del nodo:</strong> Durante la simulación de error verás etiquetas de estado específicas. La etiqueta <strong>"RAM"</strong> indica que el nodo está alojado en la memoria y siendo procesado activamente por un núcleo. La etiqueta <strong>"R" (Ready)</strong> significa que el nodo ya se ha cargado por completo en la RAM y sus dependencias previas están resueltas, pero permanece a la espera porque ningún núcleo de procesamiento está libre para tomarlo.</li>
             <li><strong>Condición de ejecución:</strong> Un procesador no puede empezar a computar un nodo si este no se encuentra 100% cargado en la memoria RAM.</li>
         </ul>
-        <h3>La paradoja del hardware antiguo (¿Un bug?)</h3>
-        <p>Al analizar los desgloses del Nivel 3, podrías encontrarte con un escenario aparentemente extraño: el sistema dispone de dos nodos pequeños listos, un núcleo rápido de velocidad x3 y otro lento de x1. Lo intuitivo sería pensar que el núcleo x3 debería procesar todos los nodos en cadena de forma consecutiva. Sin embargo, verás que la simulación óptima asigna deliberadamente un nodo al núcleo lento x1. Esto no es un error de código.</p>
-        <p>Debido a que la velocidad de transferencia desde la ROM a la RAM es de 1 unidad por segundo, el verdadero cuello de botella del sistema es la velocidad de carga de la memoria, no la potencia de cálculo. Procesar el nodo en el procesador rápido terminaría dando exactamente el mismo tiempo total que procesarlo en el lento, ya que el procesador rápido se quedaría parado de todos modos esperando a que la ROM termine de transferir el siguiente bloque. En estos casos de empate por saturación de E/S, el algoritmo optimizado de la aplicación siempre da prioridad al hardware más lento para demostrar de forma didáctica que, bajo ciertos cuellos de botella, los componentes antiguos siguen siendo igual de eficientes.</p>
+
     </div>
 
                 <div class="lang-zh">
@@ -6094,9 +6090,7 @@ HTML
         <li><strong>执行条件：</strong> 如果一个节点没有 100% 加载到 RAM 内存中，处理器就不能开始对它进行计算。</li>
     </ul>
 
-    <h3>旧硬件悖论（是 Bug 吗？）</h3>
-    <p>在分析级别 3 的拆解时，您可能会遇到一个看似奇怪的场景：系统有两个准备就绪的小节点，一个速度为 x3 的快速内核和一个速度为 x1 的慢速内核。凭直觉，人们会认为 x3 内核应该接连不断地连续处理所有节点。然而，您会发现最优模拟刻意将一个节点分配给了慢速的 x1 内核。这并不是代码错误。</p>
-    <p>因为从 ROM 到 RAM 的传输速度是每秒 1 个单元，所以系统真正的瓶颈是内存加载速度，而不是纯粹的计算能力。在快速处理器上处理该节点最终产生的总时间与在慢速处理器上处理完全相同，因为快速处理器无论如何都会停下来，等待 ROM 完成下一个区块的传输。在这种由 I/O 饱和引起的平局情况下，应用优化后的算法总是优先考虑较慢的硬件，以此来进行直观的论证：在特定的瓶颈下，旧组件依然能发挥同样高的效率。</p>
+
 </div>
 
 </div>
